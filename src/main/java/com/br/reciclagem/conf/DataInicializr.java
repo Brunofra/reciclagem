@@ -7,16 +7,43 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import com.br.reciclagem.Entity.User;
-import com.br.reciclagem.repository.UserRepository;
+import com.br.reciclagem.Document.User;
+import com.br.reciclagem.repository.mongo.UserRepositoryMongo;
 
 @Component
 public class DataInicializr implements ApplicationListener<ContextRefreshedEvent>{
+//	@Autowired
+//	UserRepository userRepository;
+	
 	@Autowired
-	UserRepository userRepository;
+	UserRepositoryMongo UserRepository;
+	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event){
-			try {
+		// mongodb
+		try {
+			
+			List<User> users = UserRepository.findAll();
+			
+			if(users.isEmpty()) {
+			
+				createusers("bruno", "brunoalvesfra@gmail.com");
+				createusers("joao", "joao@gmail.com");
+				createusers("maria", "maria@gmail.com");
+			}
+			
+			//User user = userRepository.getOne(2L);
+			
+			User user = UserRepository.findByName("maria");
+			System.out.println(user.getName());
+			
+		} catch (Exception e) {
+
+		}
+		
+		/*
+		 * mysql
+		 * 	try {
 				
 				List<User> users = userRepository.findAll();
 				
@@ -43,7 +70,7 @@ public class DataInicializr implements ApplicationListener<ContextRefreshedEvent
 				
 			} catch (Exception e) {
 
-			}
+			}*/
 	}
 	
 	
@@ -51,7 +78,7 @@ public class DataInicializr implements ApplicationListener<ContextRefreshedEvent
 		
 			User user = new User(nome, email);
 			
-			userRepository.save(user);
+			UserRepository.save(user);
 	}
 
 }

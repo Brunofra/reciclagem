@@ -9,10 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.ManyToAny;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
-
-@Entity
+@Document
+//@Entity
 public @Data class User {
 
 	
